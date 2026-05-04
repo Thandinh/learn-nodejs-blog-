@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_server
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      # Thiết lập tài khoản quản trị
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    volumes:
+      # Lưu dữ liệu vào thư mục local để dễ kiểm soát
+      - ./mongo_data:/data/db
+    command: ["mongod", "--quiet", "--logpath", "/dev/null"] # Tối ưu log để không làm đầy ổ cứng
+    networks:
+      - backend_net
+
+networks:
+  backend_net:
+    driver: bridge
